@@ -1,6 +1,9 @@
 package app
 
 import (
+	"api-service/internal/handlers"
+	"api-service/internal/repository"
+	"api-service/internal/service"
 	"database/sql"
 	"fmt"
 	"log"
@@ -34,5 +37,11 @@ func Run() {
 	}
 
 	fmt.Println("PostgreSQL!")
-	// repo := repository.NewRepository(db)
+	// repo, service
+	repo := repository.NewRepository(db)
+	service := service.NewService(repo)
+
+	handler := handlers.NewHandler(service)
+
+	log.Fatal(Server(handler.Routes()))
 }
