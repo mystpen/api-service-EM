@@ -23,11 +23,8 @@ func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 }
 
-func (h *Handler) Create(w http.ResponseWriter, r *http.Request) { //////////////////////////
-	if r.URL.Path != "/" {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
+	
 	switch r.Method {
 	case http.MethodPost:
 		var newUser types.User
@@ -43,14 +40,16 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) { /////////////
 			return
 		}
 
-		if err := h.service.UserService.CreateUser(&newUser); err!= nil{
-			
+		if err := h.service.UserService.CreateUser(&newUser); err != nil {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		w.WriteHeader(http.StatusCreated)
 	default:
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
+	
 }
 
 func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {

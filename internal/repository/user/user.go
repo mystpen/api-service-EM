@@ -3,6 +3,7 @@ package user
 import (
 	"api-service/internal/types"
 	"database/sql"
+	"fmt"
 )
 
 type UserDB struct {
@@ -17,6 +18,7 @@ type UserRepo interface {
 	CreateUser(userData *types.User) error
 }
 
-func (u *UserDB) CreateUser(dataUser *types.User)(error){
+func (u *UserDB) CreateUser(dataUser *types.User) error {
+	fmt.Println("repo", dataUser)
 	return nil
 }

@@ -3,6 +3,7 @@ package user
 import (
 	"api-service/internal/repository/user"
 	"api-service/internal/types"
+	"fmt"
 )
 
 type UserService struct {
@@ -19,5 +20,6 @@ type UserSerInterface interface {
 
 func (u *UserService) CreateUser(dataUser *types.User) (error){
 	//реализация обогащения
+	fmt.Println("service",dataUser)
 	return u.repo.CreateUser(dataUser)
 }
