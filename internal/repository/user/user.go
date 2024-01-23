@@ -1,6 +1,9 @@
 package user
 
-import "database/sql"
+import (
+	"api-service/internal/types"
+	"database/sql"
+)
 
 type UserDB struct {
 	DB *sql.DB
@@ -11,5 +14,9 @@ func NewUserDB(db *sql.DB) *UserDB {
 }
 
 type UserRepo interface {
-	
+	CreateUser(userData *types.User) error
+}
+
+func (u *UserDB) CreateUser(dataUser *types.User)(error){
+	return nil
 }

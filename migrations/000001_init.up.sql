@@ -2,7 +2,7 @@ CREATE TABLE people (
     person_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
-    patronymic VARCHAR(50)
+    patronymic VARCHAR(50),
     age INT,
     gender_id INT,
     nationality_id INT,
