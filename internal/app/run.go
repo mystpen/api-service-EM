@@ -11,6 +11,7 @@ import (
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	migrate "github.com/rubenv/sql-migrate"
 )
 
 func Run() {
@@ -31,6 +32,16 @@ func Run() {
 	}
 	defer db.Close()
 
+	migrations := &migrate.FileMigrationSource{
+		Dir: "migrations",
+	}
+
+	n, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Applied %d migrations!\n", n)
+	
 	err = db.Ping()
 	if err != nil {
 		panic(err)

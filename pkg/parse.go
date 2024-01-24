@@ -18,7 +18,7 @@ type ApiGender struct {
 	Count       int    `json:"count"`
 	Name        string `json:"name"`
 	Gender      string `json:"gender"`
-	Probability int    `json:"probability"`
+	Probability float64    `json:"probability"`
 }
 
 type ApiCountry struct {

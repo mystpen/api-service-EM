@@ -7,8 +7,7 @@ import (
 	"log"
 )
 
-
-//TODO: logs
+// TODO: logs
 var PageSize = 3
 
 type UserDB struct {
@@ -22,25 +21,28 @@ func NewUserDB(db *sql.DB) *UserDB {
 type UserRepo interface {
 	CreateUser(userData *types.User) error
 	GetAllUsers(types.Filter) ([]*types.User, error)
+	DeleteUser(userId int) error
+	UpdateUser(updatedUser *types.User, userId int) error
 }
 
 func (u *UserDB) CreateUser(dataUser *types.User) error {
 	var nationalityID, genderID int
 	err := u.DB.QueryRow(
-		"INSERT INTO nationalities (nationality_name) VALUES ($1) ON CONFLICT (nationality_name) DO NOTHING RETURNING nationality_id",
+		"INSERT INTO nationalities (nationality_name) VALUES ($1) RETURNING nationality_id",
 		dataUser.Nationality,
 	).Scan(&nationalityID)
 	if err != nil {
-		fmt.Println("create err:", err)
+		fmt.Println("create err1:", err)
 		return err
 	}
 	err = u.DB.QueryRow(
-		"INSERT INTO gender (gender_name) VALUES ($1) ON CONFLICT (gender_name) DO NOTHING RETURNING gender_id", 
+		"INSERT INTO genders (gender_name) VALUES ($1)  RETURNING gender_id",
 		dataUser.Gender).Scan(&genderID)
 	if err != nil {
 		fmt.Println("create err:", err)
 		return err
 	}
+	fmt.Println(nationalityID, genderID)
 	_, err = u.DB.Exec("INSERT INTO people (name, surname, patronymic, age, gender_id, nationality_id) VALUES($1, $2, $3, $4, $5, $6)",
 		dataUser.Name,
 		dataUser.Surname,

@@ -1,5 +1,6 @@
-DROP TABLE people;
+-- +migrate Down
+DROP TABLE IF EXISTS people;
 
-DROP TABLE nationalities;
+DROP TABLE IF EXISTS nationalities;
 
-DROP TABLE genders ;
+DROP TABLE IF EXISTS genders ;

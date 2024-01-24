@@ -80,7 +80,49 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodDelete:
+		user_id, err := strconv.Atoi(r.URL.Query().Get("user_id"))
+		if err != nil || user_id <= 0{
+			http.Error(w, "Invalid data", http.StatusBadRequest)
+		}
+
+		if err := h.service.UserService.DeleteUser(user_id); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+	}
 }
 
 func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		user_id, err := strconv.Atoi(r.URL.Query().Get("user_id"))
+		if err != nil || user_id <= 0{
+			http.Error(w, "Invalid data", http.StatusBadRequest)
+		}
+
+		var updatedUser types.User
+
+		data, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+			return
+		}
+		err = json.Unmarshal(data, &updatedUser)
+		if err != nil {
+			http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+			return
+		}
+
+		err = h.service.UserService.UpdateUser(&updatedUser, user_id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+	}
 }
