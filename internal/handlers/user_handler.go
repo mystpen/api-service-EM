@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"api-service/internal/types"
+	"api-service/pkg"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -40,8 +41,14 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		//validate
+		if err := pkg.Validate(newUser); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		
 		if err := h.service.UserService.CreateUser(&newUser); err != nil {
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
