@@ -9,3 +9,10 @@ type User struct {
 	Gender      string `json:"gender"`
 	Nationality string `json:"nationality"`
 }
+
+type Filter struct {
+	Page        int
+	Age         int
+	Nationality string
+	Gender      string
+}
