@@ -3,7 +3,7 @@ package user
 import (
 	"api-service/internal/repository/user"
 	"api-service/internal/types"
-	"fmt"
+	"api-service/pkg"
 )
 
 type UserService struct {
@@ -19,12 +19,14 @@ type UserSerInterface interface {
 	GetAllUsers(types.Filter) ([]*types.User, error)
 }
 
-func (u *UserService) CreateUser(dataUser *types.User) (error){
-	//реализация обогащения
-	fmt.Println("service",dataUser)
+func (u *UserService) CreateUser(dataUser *types.User) error {
+	err := pkg.Parse(dataUser)
+	if err != nil{
+		return err
+	}
 	return u.repo.CreateUser(dataUser)
 }
 
-func (u *UserService) GetAllUsers(filter types.Filter) ([]*types.User, error){ //TODO: filter
+func (u *UserService) GetAllUsers(filter types.Filter) ([]*types.User, error) { // TODO: filter
 	return u.repo.GetAllUsers(filter)
 }

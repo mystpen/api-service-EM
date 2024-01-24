@@ -59,7 +59,6 @@ func (u *UserDB) CreateUser(dataUser *types.User) error {
 
 func (u *UserDB) GetAllUsers(filter types.Filter) ([]*types.User, error) {
 	offset := (filter.Page - 1) * PageSize
-	// query := "SELECT * FROM people INNER JOIN nationalities USING(nationality_id) INNER JOIN genders USING(gender_id)"
 	query := "SELECT * FROM people INNER JOIN nationalities ON people.nationality_id=nationalities.nationality_id"
 	if filter.Nationality != "" {
 		query += fmt.Sprintf(" AND nationalities.nationality_name = '%s'", filter.Nationality)

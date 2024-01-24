@@ -31,7 +31,7 @@ func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 		}
 		filters.Age = age
 
-		users, err := h.service.UserService.GetAllUsers(filters) // page, natio, age, gender
+		users, err := h.service.UserService.GetAllUsers(filters)
 
 		jsonData, err := json.Marshal(users)
 		if err != nil {
