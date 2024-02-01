@@ -5,5 +5,5 @@ http://localhost:8000/delete
 http://localhost:8000/update
 ```
 ```
-http://localhost:8000/add
+http://localhost:8000/create
 ```
