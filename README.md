@@ -1,5 +1,5 @@
 # Api Service 
-Test task for the position of Go developer
+
 
 ```
 http://localhost:8000/delete
